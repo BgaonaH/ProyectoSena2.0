@@ -2,9 +2,12 @@ package com.cg.ecommerceCandyshop.backend.infraestruture.adapter;
 
 import com.cg.ecommerceCandyshop.backend.domain.model.Product;
 import com.cg.ecommerceCandyshop.backend.domain.port.IProductRepository;
+import com.cg.ecommerceCandyshop.backend.infraestruture.entity.ProductEntity;
 import com.cg.ecommerceCandyshop.backend.infraestruture.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -36,5 +39,11 @@ public class ProductCrudRepositoryImpl implements IProductRepository {
         );
         iProductCrudRepository.deleteById(id);
     }
-    
+    @Override
+    public List<Product> findByNameContainingIgnoreCase(String name) {
+        List<ProductEntity> productEntities = iProductCrudRepository.findByNameContainingIgnoreCase(name);
+        return (List<Product>) productMapper.toProductList(productEntities);
+
+    }
+
 }

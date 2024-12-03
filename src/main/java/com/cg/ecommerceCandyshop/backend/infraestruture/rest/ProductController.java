@@ -13,13 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/v1/admin/products")
 @Slf4j
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 
     private final ProductService productService;
@@ -74,5 +75,10 @@ public class ProductController {
     public ResponseEntity<HttpStatus> deleteById(@PathVariable Integer id){
         productService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String query) {
+        List<Product> products = productService.searchByName(query);
+        return ResponseEntity.ok(products);
     }
 }
